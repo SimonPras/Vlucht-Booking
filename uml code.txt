@@ -1,0 +1,46 @@
+@startuml
+
+class Passagier {
+    +passagier_id
+    +first_name
+    +last_name
+    +geboortedatum
+}
+
+class Contact {
+    +contact_id
+    +passagier_id
+    +adres
+    +woonplaats
+    +postcode
+    +email
+    +mobiel
+}
+
+class Vlucht {
+    +vlucht_id
+    +vluchtnummer
+    +oorsprong
+    +bestemming
+    +vertrekdatum
+    +vertrektijd
+    +aankomstdatum
+    +aankomsttijd
+    +gate
+}
+
+class Instapkart {
+    +instapkart_id
+    +passagier_id
+    +vlucht_id
+    +isActief
+    +opmerking
+    +datumAangemaakt
+    +datumGewijzigd
+}
+
+Passagier --> Contact
+Passagier --> Instapkart
+Instapkart --> Vlucht
+
+@enduml
