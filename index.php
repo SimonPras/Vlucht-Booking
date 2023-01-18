@@ -1,4 +1,4 @@
-Overzicht Vlucht-Booking Vluchtnummer <input type="" id=""> <input type="submit" value="Tonen">
+Overzicht Vlucht-Booking Vluchtnummer <input type="" id=""> <input type="submit" value="Zoeken">
 <?php echo '<button onclick="window.location.href=\'Nieuwe-Booking.php\'">Nieuw Booking</button>';
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=vlucht-booking', 'root', '');
@@ -30,6 +30,8 @@ try {
         echo '<td>' . $passagier['bestemming'] . '</td>';
         echo '<td>' . $passagier['vertrekdatum'] . '</td>';
         echo '<td>' . $passagier['vertrektijd'] . '</td>';
+        echo '<td>' . '<button onclick="window.location.href=\'Update-Booking.php\'">Wijzigen</button>' . '</td>';
+        echo '<td>' . '<button onclick="window.location.href=\'Delete-Booking.php\'">Verwijder</button>' . '</td>';
         echo '</tr>';
     }
     echo '</table>';

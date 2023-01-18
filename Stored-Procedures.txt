@@ -1,0 +1,23 @@
+DELIMITER $$
+
+CREATE PROCEDURE getPassagiers()
+BEGIN
+    SELECT * FROM passagiers;
+END $$
+
+CREATE PROCEDURE addPassagier(IN voornaam VARCHAR(255), IN achternaam VARCHAR(255), IN geboortedatum DATE)
+BEGIN
+    INSERT INTO passagiers (voornaam, achternaam, geboortedatum) VALUES (voornaam, achternaam, geboortedatum);
+END $$
+
+CREATE PROCEDURE updatePassagier(IN passagier_id INT, IN voornaam VARCHAR(255), IN achternaam VARCHAR(255), IN geboortedatum DATE)
+BEGIN
+    UPDATE passagiers SET voornaam = voornaam, achternaam = achternaam, geboortedatum = geboortedatum WHERE passagier_id = passagier_id;
+END $$
+
+CREATE PROCEDURE deletePassagier(IN passagier_id INT)
+BEGIN
+    DELETE FROM passagiers WHERE passagier_id = passagier_id;
+END $$
+
+DELIMITER

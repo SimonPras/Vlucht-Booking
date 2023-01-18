@@ -1,3 +1,34 @@
+<?php
+if (isset($_POST['voornaam']) && isset($_POST['achternaam']) && isset($_POST['geboortedatum'])  && isset($_POST['adres'])  && isset($_POST['woonplaats'])  && isset($_POST['postcode'])  && isset($_POST['email']) && isset($_POST['mobiel']) && isset($_POST['vluchtnummer']) && isset($_POST['bestemming']) && isset($_POST['vertrekdatum']) && isset($_POST['vertrektijd'])) {
+    $voornaam = $_POST['voornaam'];
+    $achternaam = $_POST['achternaam'];
+    $geboortedatum = $_POST['geboortedatum'];
+    $adres = $_POST['adres'];
+    $woonplaats = $_POST['woonplaats'];
+    $postcode = $_POST['postcode'];
+    $email = $_POST['email'];
+    $mobiel = $_POST['mobiel'];
+    $vluchtnummer = $_POST['vluchtnummer'];
+    $bestemming = $_POST['bestemming'];
+    $vertrekdatum = $_POST['vertrekdatum'];
+    $vertrektijd = $_POST['vertrektijd'];
+    $query = "INSERT INTO passagier (voornaam, achternaam, geboortedatum) VALUES (:voornaam, :achternaam, :geboortedatum)";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(array(':voornaam' => $voornaam, ':achternaam' => $achternaam, ':geboortedatum' => $geboortedatum));
+    $lastInsertId = $pdo->lastInsertId();
+    $query = "INSERT INTO contact (passagier_id, adres, woonplaats, postcode, email, mobiel) VALUES (:passagier_id, :adres, :woonplaats, :postcode, :email, :mobiel)";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(array(':passagier_id' => $lastInsertId, ':adres' => $adres, ':woonplaats' => $woonplaats, ':postcode' => $postcode, ':email' => $email, ':mobiel' => $mobiel));
+    $query = "INSERT INTO vlucht (vluchtnummer, bestemming, vertrekdatum, vertrektijd) VALUES (:vluchtnummer, :bestemming, :vertrekdatum, :vertrektijd)";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(array(':vluchtnummer' => $vluchtnummer, ':bestemming' => $bestemming, ':vertrekdatum' => $vertrekdatum, ':vertrektijd' => $vertrektijd));
+    $lastInsertIdVlucht = $pdo->lastInsertId();
+    $query = "INSERT INTO instapkart (passagier_id, vlucht_id) VALUES (:passagier_id, :vlucht_id)";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(array(':passagier_id' => $lastInsertId, ':vlucht_id' => $lastInsertIdVlucht));
+}
+?>
+
 <form action="index.php" method="post">
     <label for="voornaam">Voornaam:</label>
     <input type="text" name="voornaam" id="voornaam"><br><br>

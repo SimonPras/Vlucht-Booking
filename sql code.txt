@@ -1,0 +1,43 @@
+CREATE PROCEDURE createVluchtBooking(
+  @first_name VARCHAR(255),
+  @last_name VARCHAR(255),
+  @birthdate DATE,
+  @adres VARCHAR(255),
+  @woonplaats VARCHAR(255),
+  @postcode VARCHAR(255),
+  @email VARCHAR(255),
+  @mobile VARCHAR(255),
+  @vluchtnummer VARCHAR(255),
+  @oorsprong VARCHAR(255),
+  @bestemming VARCHAR(255),
+  @vertrekdatum DATE,
+  @vertrektijd TIME,
+  @aankomstdatum DATE,
+  @aankomsttijd TIME,
+  @gate VARCHAR(255)
+)
+AS
+BEGIN
+    DECLARE @adres_id INT
+    DECLARE @vlucht_id INT
+    DECLARE @passagier_id INT
+
+    -- insert data into the Contact table
+    INSERT INTO Contact(adres, woonplaats, postcode, email, mobile)
+    OUTPUT INSERTED.adres_id INTO @adres_id
+    VALUES (@adres, @woonplaats, @postcode, @email, @mobile)
+
+    -- insert data into the Vlucht table
+    INSERT INTO Vlucht(vluchtnummer, oorsprong, bestemming, vertrekdatum, vertrektijd, aankomstdatum, aankomsttijd, gate)
+    OUTPUT INSERTED.vlucht_id INTO @vlucht_id
+    VALUES (@vluchtnummer, @oorsprong, @bestemming, @vertrekdatum, @vertrektijd, @aankomstdatum, @aankomsttijd, @gate)
+
+    -- insert data into the Passagier table
+    INSERT INTO Passagier(first_name, last_name, birthdate, adres_id)
+    OUTPUT INSERTED.passagier_id INTO @passagier_id
+    VALUES (@first_name, @last_name, @birthdate, @adres_id)
+
+    -- insert data into the Instapkart table
+    INSERT INTO Instapkart(passagier_id, vlucht_id)
+    VALUES (@passagier_id, @vlucht_id)
+END
